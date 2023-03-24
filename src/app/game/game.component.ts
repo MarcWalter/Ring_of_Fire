@@ -10,9 +10,12 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
+  animationIsRunning = false;
   pickCardAnimation = false;
   turnCard = false;
   cardTurned = false;
+  discardCard = false;
+  topCardVisible = true;
   currentCard: string = '';
   game: Game;
 
@@ -27,7 +30,7 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    if (!this.pickCardAnimation) {
+    if (!this.animationIsRunning) {
       this.currentCard = this.game.stack.pop();
       this.turnAnimation();
       this.resetAnimation();
@@ -37,21 +40,32 @@ export class GameComponent implements OnInit {
 
   turnAnimation() {
     this.pickCardAnimation = true;
+    this.  animationIsRunning = true;
+    // Turn card
     setTimeout(() => {
       this.turnCard = true
-    }, 500);
+    }, 100);
+    // Replace card
     setTimeout(() => {
       this.cardTurned = true;
+      this.pickCardAnimation = false;
+      this.turnCard = false;
+      this.topCardVisible = false;
     }, 1000);
+    // Move Card to stack
+    setTimeout(() => {
+      this.discardCard = true;
+      this.topCardVisible = true;
+    }, 1100);
   }
 
   resetAnimation() {
     setTimeout(() => {
-      this.pickCardAnimation = false;
-      this.turnCard = false;
       this.cardTurned = false;
+      this.discardCard = false;
+      this.animationIsRunning = false;
       this.game.playedCards.push(this.currentCard);
-    }, 3000);
+    }, 1700);
   }
 
   changePlayer() {

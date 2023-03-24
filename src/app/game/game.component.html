@@ -26,13 +26,14 @@
         </div>
     -->
 
-        <div [class.flip-card-effect]="pickCardAnimation" class="flip-card top-card" style="left: 25px; bottom: 5px">
+        <div *ngIf="topCardVisible" [ngClass]="{'flip-card-effect': turnCard, 'pointer': !animationIsRunning}" class="flip-card top-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
-                    <img (click)="takeCard()" src="../../assets/img/cards/card_cover.png">
+                    <img (click)="takeCard()" [ngClass]="{'scale-card position-hidden-card': pickCardAnimation}"
+                        style="left: 0" src="../../assets/img/cards/card_cover.png">
                 </div>
                 <div class="flip-card-back">
-                    <img src="../../assets/img/cards/clubs_11.png">
+                    <img [class.scale-card]="pickCardAnimation" src="../../assets/img/cards/{{ currentCard }}.png">
 
                 </div>
             </div>
@@ -41,6 +42,11 @@
         <!-- Stack for played cards -->
         <img *ngFor="let card of game.playedCards" class="played-card" src="../../assets/img/cards/{{ card }}.png"
             alt="">
+
+        <!-- Moving card to stack -->
+        <img class="turned-card" [class.discard]="discardCard" *ngIf="cardTurned"
+            src="../../assets/img/cards/{{ currentCard }}.png">
+
 
     </div>
 </div>
