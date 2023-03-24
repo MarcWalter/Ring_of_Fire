@@ -1,7 +1,52 @@
+<app-player *ngFor="let player of game.players; let i = index" [ngStyle]="{'top.px': 100 + (i * 70)}" [name]="player"
+    [playerActive]="i == game.currentPlayer" class="player-card-position"></app-player>
+
 <div class="game-field">
     <div class="card-stack">
-        <img [ngStyle]="{'left.px': i * 5, 'bottom.px': i * 1}" *ngFor="let c of [1, 2, 3, 4, 5]; let i = index;" src="../../assets/img/cards/card_cover.png" alt="">
-        <img (click)="takeCard()" [class.pick-card]="pickCardAnimation" [class.turn0]="turnCard" class="top-card" style="left: 25px; bottom: 5px" src="../../assets/img/cards/card_cover.png" alt="">
-        <img *ngIf="pickCardAnimation && cardTurned" [class.turned-card]="cardTurned" class="pickCardAnimation" style="left: 25px; bottom: 5px" src="../../assets/img/cards/spade_1.png" alt="">
+        <img [ngStyle]="{'left.px': i * 5, 'bottom.px': i * 1}" *ngFor="let c of [1, 2, 3, 4, 5]; let i = index;"
+            src="../../assets/img/cards/card_cover.png" alt="">
+
+
+        <!--
+            <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    Card stack
+                    <img (click)="takeCard()" [class.pick-card]="pickCardAnimation" [class.turn0]="turnCard"
+                        class="top-card" style="left: 25px; bottom: 5px" src="../../assets/img/cards/card_cover.png"
+                        alt="">
+                </div>
+                <div class="flip-card-back">
+                    Current card animation
+                    <img *ngIf="pickCardAnimation && cardTurned" [class.turned-card]="cardTurned"
+                        class="pickCardAnimation" style="left: 25px; bottom: 5px"
+                        src="../../assets/img/cards/{{ currentCard }}.png" alt="">
+                </div>
+            </div>
+        </div>
+    -->
+
+        <div [class.flip-card-effect]="pickCardAnimation" class="flip-card top-card" style="left: 25px; bottom: 5px">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img (click)="takeCard()" src="../../assets/img/cards/card_cover.png">
+                </div>
+                <div class="flip-card-back">
+                    <img src="../../assets/img/cards/clubs_11.png">
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Stack for played cards -->
+        <img *ngFor="let card of game.playedCards" class="played-card" src="../../assets/img/cards/{{ card }}.png"
+            alt="">
+
     </div>
 </div>
+
+<app-game-task [card]="currentCard" class="pin-bottom"></app-game-task>
+
+<button mat-fab color="warn" (click)="openDialog()" class="btn-add">
+    <mat-icon>add</mat-icon>
+</button>
